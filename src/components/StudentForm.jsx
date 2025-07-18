@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { div } from "framer-motion/client";
 
 const StudentForm = () => {
   const [formData, setFormData] = useState({
@@ -31,6 +29,7 @@ const StudentForm = () => {
   };
 
   // 🗑️ Delete Function
+
   const handleDelete = (indexToDelete) => {
     const updated = students.filter((_, i) => i !== indexToDelete);
     setStudents(updated);
@@ -77,24 +76,35 @@ const StudentForm = () => {
 
                 <div>
                   <label>Branch</label>
-                  <input
-                    type="text"
+                  <select
                     name="branch"
                     value={formData.branch}
                     onChange={handleChange}
                     required
-                  />
+                  >
+                    <option value="">Select Branch</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Civil">Civil</option>
+                  </select>
                 </div>
 
                 <div>
                   <label>Course</label>
-                  <input
-                    type="text"
+                  <select
                     name="course"
                     value={formData.course}
                     onChange={handleChange}
                     required
-                  />
+                  >
+                    <option value="">Select Course</option>
+                    <option value="B.Tech">B.Tech</option>
+                    <option value="M.Tech">M.Tech</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="PhD">PhD</option>
+                  </select>
                 </div>
 
                 <div>
@@ -118,26 +128,38 @@ const StudentForm = () => {
       </div>
 
       <div className="submitted-details-header">
-  <h3>📋 Submitted Students</h3>
-  <div className="submitted-details">
-    {students.map((student, index) => (
-      <div key={index} className="student-entry">
-        <div className="student-details">
-          <p><strong>Name:</strong> {student.name}</p>
-          <p><strong>Roll:</strong> {student.roll}</p>
-          <p><strong>Branch:</strong> {student.branch}</p>
-          <p><strong>Course:</strong> {student.course}</p>
-          <p><strong>Email:</strong> {student.email}</p>
+        <h3>📋 Submitted Students</h3>
+        <div className="submitted-details">
+          {students.map((student, index) => (
+            <div key={index} className="student-entry">
+              <div className="student-details">
+                <p>
+                  <strong>Name:</strong> {student.name}
+                </p>
+                <p>
+                  <strong>Roll:</strong> {student.roll}
+                </p>
+                <p>
+                  <strong>Branch:</strong> {student.branch}
+                </p>
+                <p>
+                  <strong>Course:</strong> {student.course}
+                </p>
+                <p>
+                  <strong>Email:</strong> {student.email}
+                </p>
+              </div>
+
+              <button
+                className="delete-btn"
+                onClick={() => handleDelete(index)}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
         </div>
-
-        <button className="delete-btn" onClick={() => handleDelete(index)}>
-          Delete
-        </button>
       </div>
-    ))}
-  </div>
-</div>
-
     </div>
   );
 };

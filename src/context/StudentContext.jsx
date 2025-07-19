@@ -34,7 +34,9 @@ export const StudentProvider = ({ children }) => {
 
   const deleteStudent = async (studentId) => {
     try {
-      await axios.delete(`http://localhost:5028/api/Std?studentId=${studentId}`);
+      await axios.delete(
+        `http://localhost:5028/api/Std?studentId=${studentId}`
+      );
       fetchStudents();
     } catch (err) {
       console.error("❌ Error deleting student:", err);

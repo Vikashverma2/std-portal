@@ -46,17 +46,32 @@ const StudentForm = ({ isDark, setIsDark }) => {
             <div className="form-fields">
               <div>
                 <label>Name</label>
-                <input name="name" value={formData.name} onChange={handleChange} required />
+                <input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
               </div>
 
               <div>
                 <label>Roll Number</label>
-                <input name="rollNumber" value={formData.rollNumber} onChange={handleChange} required />
+                <input
+                  name="rollNumber"
+                  value={formData.rollNumber}
+                  onChange={handleChange}
+                  required
+                />
               </div>
 
               <div>
                 <label>Branch</label>
-                <select name="branch" value={formData.branch} onChange={handleChange} required>
+                <select
+                  name="branch"
+                  value={formData.branch}
+                  onChange={handleChange}
+                  required
+                >
                   <option value="">Select Branch</option>
                   <option value="CSE">CSE</option>
                   <option value="ECE">ECE</option>
@@ -68,7 +83,12 @@ const StudentForm = ({ isDark, setIsDark }) => {
 
               <div>
                 <label>Course</label>
-                <select name="courses" value={formData.courses} onChange={handleChange} required>
+                <select
+                  name="courses"
+                  value={formData.courses}
+                  onChange={handleChange}
+                  required
+                >
                   <option value="">Select Course</option>
                   <option value="B.Tech">B.Tech</option>
                   <option value="M.Tech">M.Tech</option>

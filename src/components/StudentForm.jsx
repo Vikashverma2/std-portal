@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const StudentForm = () => {
   const [formData, setFormData] = useState({
@@ -16,25 +17,70 @@ const StudentForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const GetAllStudetData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5028/api/Std");
+      const updated = response.data.map((student) => ({
+        id: student.id, // ✅ Include ID for deletion
+        name: student.name,
+        roll: student.rollNumber,
+        branch: student.branch,
+        course: student.courses,
+        email: student.emailID,
+      }));
+      setStudents(updated);
+    } catch (error) {
+      console.error("❌ Error fetching students:", error);
+    }
+  };
+
+  useEffect(() => {
+    GetAllStudetData();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setStudents([...students, formData]);
-    setFormData({
-      name: "",
-      roll: "",
-      branch: "",
-      course: "",
-      email: "",
-    });
+
+    const studentsData = {
+      name: formData.name,
+      rollNumber: formData.roll,
+      branch: formData.branch,
+      courses: formData.course,
+      emailID: formData.email,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5028/api/Std",
+        studentsData
+      );
+      console.log("✅ Data sent:", response.data);
+
+      GetAllStudetData(); // Refresh list
+
+      setFormData({
+        name: "",
+        roll: "",
+        branch: "",
+        course: "",
+        email: "",
+      });
+    } catch (error) {
+      console.error("❌ API Error:", error);
+    }
   };
 
-  // 🗑️ Delete Function
-
-  const handleDelete = (indexToDelete) => {
-    const updated = students.filter((_, i) => i !== indexToDelete);
-    setStudents(updated);
+  const DeleteStudent = async (studentId) => {
+    try {
+      await axios.delete(`http://localhost:5028/api/Std?studentId=${studentId}`);
+      GetAllStudetData(); // Refresh list after delete
+    } catch (error) {
+      console.error("❌ Delete failed:", error);
+    }
   };
 
+
+  
   return (
     <div className={`page-wrapper ${isDark ? "dark" : ""}`}>
       <div className="form-container">
@@ -42,10 +88,7 @@ const StudentForm = () => {
           <div className="student-form">
             <div className="form-header">
               <h2>🎓 Student Form</h2>
-              <button
-                className="dark-toggle"
-                onClick={() => setIsDark(!isDark)}
-              >
+              <button className="dark-toggle" onClick={() => setIsDark(!isDark)}>
                 {isDark ? "☀️" : "🌙"}
               </button>
             </div>
@@ -133,26 +176,15 @@ const StudentForm = () => {
           {students.map((student, index) => (
             <div key={index} className="student-entry">
               <div className="student-details">
-                <p>
-                  <strong>Name:</strong> {student.name}
-                </p>
-                <p>
-                  <strong>Roll:</strong> {student.roll}
-                </p>
-                <p>
-                  <strong>Branch:</strong> {student.branch}
-                </p>
-                <p>
-                  <strong>Course:</strong> {student.course}
-                </p>
-                <p>
-                  <strong>Email:</strong> {student.email}
-                </p>
+                <p><strong>Name:</strong> {student.name}</p>
+                <p><strong>Roll:</strong> {student.roll}</p>
+                <p><strong>Branch:</strong> {student.branch}</p>
+                <p><strong>Course:</strong> {student.course}</p>
+                <p><strong>Email:</strong> {student.email}</p>
               </div>
-
               <button
                 className="delete-btn"
-                onClick={() => handleDelete(index)}
+                onClick={() => DeleteStudent(student.id)} // ✅ Corrected this
               >
                 Delete
               </button>

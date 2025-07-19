@@ -1,12 +1,19 @@
-import React from 'react';
-import StudentForm from './components/StudentForm';
+
 import './App.css'
+
+import StudentForm from "./components/StudentForm";
+import SubmittedStudents from "./components/SubmittedStudents";
+
+
+
 
 
 function App() {
   return (
-    <div className='bg'>
-      <StudentForm />
+    <div className="page-wrapper">
+      <StudentForm/>
+      <SubmittedStudents/>
+
     </div>
   );
 }

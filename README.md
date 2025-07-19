@@ -99,3 +99,7 @@ Start the server
   npm run start
 ```
 
+
+## 🔗 For Server Repo
+
+[Click Here](https://github.com/Vikashverma2/std-portal-Server)
